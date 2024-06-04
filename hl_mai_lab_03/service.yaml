@@ -1,0 +1,440 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'Service API'
+  description: API для создания, поиска и заказа услуг
+servers:
+  - url: http://localhost:8080
+    description: Example server
+paths:
+  /orders:
+    get:
+      summary: Чтение информации о заказе
+      parameters:
+      - name: user_id
+        description: Уникальный идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Найденный пользователь
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orders'
+        404:
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /order:
+    get:
+      summary: Чтение информации о заказе
+      parameters:
+      - name: id
+        description: Уникальный идентификатор заказа
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Найденный пользователь
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order'
+        404:
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Обновление информации о заказе
+      parameters:
+      - name: id
+        description: Идентификатор заказа
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        description: Идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: address
+        description: Адрес пользователя
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: service_ids
+        description: Идентификаторы услуг
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+      responses:
+        '200':
+          description: Идентификатор измененного заказа
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка изменения заказа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Добавление нового заказа
+      parameters:
+      - name: id
+        description: Идентификатор заказа
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        description: Идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: address
+        description: Адрес пользователя
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: service_ids
+        description: Идентификаторы услуг
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+      responses:
+        '200':
+          description: Идентификатор добавленного заказа
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления заказа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Удаление информации о заказе
+      parameters:
+      - name: id
+        description: Уникальный идентификатор заказа
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Идентификатор, добавленного заказа
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления заказа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /services:
+    get:
+      summary: Чтение информации об услугах
+      parameters:
+      - name: user_id
+        description: Уникальный идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Найденный пользователь
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orders'
+        404:
+          description: Пользователь не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /service:
+    get:
+      summary: Чтение информации об услуге
+      parameters:
+      - name: id
+        description: Уникальный идентификатор услуги
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Найденная услуга
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order'
+        404:
+          description: Услуга не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Обновление информации об услуге
+      parameters:
+      - name: id
+        description: Идентификатор услуги
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        description: Идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: name
+        description: Название услуги
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        description: Описание услуги
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: price
+        description: Цена услуги
+        in: query
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Идентификатор измененной услуги
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка изменения услуги
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Добавление новой услуги
+      parameters:
+      - name: id
+        description: Идентификатор услуги
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: user_id
+        description: Идентификатор пользователя
+        in: query
+        required: true
+        schema:
+          type: integer
+      - name: name
+        description: Название услуги
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: description
+        description: Описание услуги
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: price
+        description: Цена услуги
+        in: query
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Идентификатор добавленной услуги
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления услуги
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Удаление информации об услуге
+      parameters:
+      - name: id
+        description: Уникальный идентификатор услуги
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        '200':
+          description: Идентификатор добавленной услуги
+          content:
+            application/json:
+              schema:
+                type: integer
+        404:
+          description: Ошибка добавления услуги
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Неожиданная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    id:
+      description: Уникальный идентификатор
+      type: integer
+    orders:
+      type: array
+      items:
+        $ref: '#/components/schemas/order'
+    order:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        address:
+          type: string
+        service_ids:
+          type: array
+          items:
+            type: integer
+    services:
+      type: array
+      items:
+        $ref: '#/components/schemas/service'
+    service:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: Сообщение о ошибке
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - basicAuth: []

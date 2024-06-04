@@ -4,7 +4,7 @@ import requests
 with open(f'{os.path.dirname(__file__)}/users.txt', 'r') as f:
     lines = f.readlines()
     for i in range(1, len(lines)):
-        data = lines[i].split(' ')
+        data = lines[i].strip().split(' ')
         files = {
             ('first_name', (None, data[0])),
             ('last_name', (None, data[1])),

@@ -237,10 +237,9 @@ namespace database
     }
 
     std::string User::sha256(std::string password) {
-        std::vector<unsigned char> hash(picosha2::k_digest_size);
-        picosha2::hash256(password.begin(), password.end(), hash.begin(), hash.end());
-        std::string hex_str = picosha2::bytes_to_hex_string(hash.begin(), hash.end());
-        return hex_str;
+        std::string hash_hex_str;
+        picosha2::hash256_hex_string(password, hash_hex_str);
+        return hash_hex_str;
     }
 
     void User::save_to_psql()

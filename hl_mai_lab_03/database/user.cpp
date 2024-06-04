@@ -82,6 +82,12 @@ namespace database
         return user;
     }
 
+    std::string User::sha256(std::string &password) {
+        std::string hash_hex_str;
+        picosha2::hash256_hex_string(password, hash_hex_str);
+        return hash_hex_str;
+    }
+
     std::optional<long> User::auth(std::string &login, std::string &password)
     {
         try
@@ -89,10 +95,12 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement select(session);
             long id;
+            std::string password_sha256 = User::sha256(password);
+            std::cout << password << ' ' << password_sha256 << std::endl;
             select << "SELECT id FROM users where login=$1 and password=$2",
                 into(id),
                 use(login),
-                use(password),
+                use(password_sha256),
                 range(0, 1); //  iterate over result set one row at a time
 
             select.execute();
@@ -236,12 +244,6 @@ namespace database
         }
     }
 
-    std::string User::sha256(std::string password) {
-        std::string hash_hex_str;
-        picosha2::hash256_hex_string(password, hash_hex_str);
-        return hash_hex_str;
-    }
-
     void User::save_to_psql()
     {
 
@@ -250,7 +252,7 @@ namespace database
             Poco::Data::Session session = database::Database::get().create_session();
             Poco::Data::Statement insert(session);
 
-            std::string password_sha256 = sha256(_password);
+            std::string password_sha256 = User::sha256(_password);
             insert << "INSERT INTO users (first_name,last_name,email,title,login,password) VALUES($1, $2, $3, $4, $5, $6)",
                 use(_first_name),
                 use(_last_name),
