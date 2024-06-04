@@ -96,7 +96,6 @@ namespace database
             Poco::Data::Statement select(session);
             long id;
             std::string password_sha256 = User::sha256(password);
-            std::cout << password << ' ' << password_sha256 << std::endl;
             select << "SELECT id FROM users where login=$1 and password=$2",
                 into(id),
                 use(login),
